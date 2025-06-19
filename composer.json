@@ -1,0 +1,25 @@
+{
+    "name": "escuelait/magnific-validator",
+    "description": "PHP Validation Library",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Escuelait\\MagnificValidator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Escuelait\\Tests\\MagnificValidator\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "midesweb",
+            "email": "miguel@escuela.it"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^12.2"
+    }
+}
