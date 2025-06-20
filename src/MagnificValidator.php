@@ -13,12 +13,18 @@ class MagnificValidator {
         $this->validateEmail($input);
       } elseif($rule == 'required') {
         $this->validateRequired($input);
+      } else {
+        throw new \InvalidArgumentException("Unknown rule: $rule");
       }
     }
     if(count($this->errors) > 0) {
       return false;
     }
     return true;
+  }
+
+  public function getErrors() {
+    return $this->errors;
   }
 
   private function validateEmail($input) {
