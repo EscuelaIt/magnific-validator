@@ -2,19 +2,21 @@
 
 namespace Escuelait\MagnificValidator;
 
+use Escuelait\MagnificValidator\Rules\EmailRule;
+use Escuelait\MagnificValidator\Rules\RequiredRule;
+
 class MagnificValidator {
 
   private array $errors;
 
   public function validateInput($input, array $rules = []) {
     $this->errors = [];
-    foreach($rules as $rule) {
-      if($rule == 'email') {
-        $this->validateEmail($input);
-      } elseif($rule == 'required') {
-        $this->validateRequired($input);
-      } else {
-        throw new \InvalidArgumentException("Unknown rule: $rule");
+
+    $ruleObjects = $this->parseRules($rules);
+
+    foreach($ruleObjects as $rule) {
+      if(! $rule->validate($input)) {
+        $this->errors[] = $rule->message();
       }
     }
     if(count($this->errors) > 0) {
@@ -27,16 +29,14 @@ class MagnificValidator {
     return $this->errors;
   }
 
-  private function validateEmail($input) {
-    if(filter_var($input, FILTER_VALIDATE_EMAIL) === false) {
-      $this->errors[] = 'The input should be an email';
-    }
+  private function parseRules(array $rules) :array {
+    return array_map(function ($rule) {
+      return match(true) {
+        $rule == 'email' => new EmailRule(),
+        $rule == 'required' => new RequiredRule(),
+        default => throw new \InvalidArgumentException("Unknown rule: $rule"),
+      };
+    }, $rules);
   }
-
-  private function validateRequired($input) {
-    if(is_null($input) || $input == '') {
-      $this->errors[] = 'The input is required';
-    }
-  }
-
+  
 }
