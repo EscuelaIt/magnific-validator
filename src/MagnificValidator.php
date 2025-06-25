@@ -2,10 +2,7 @@
 
 namespace Escuelait\MagnificValidator;
 
-use Escuelait\MagnificValidator\Rules\MaxRule;
-use Escuelait\MagnificValidator\Rules\UrlRule;
-use Escuelait\MagnificValidator\Rules\EmailRule;
-use Escuelait\MagnificValidator\Rules\RequiredRule;
+use Escuelait\MagnificValidator\Rules\RuleParser;
 
 class MagnificValidator {
 
@@ -14,7 +11,8 @@ class MagnificValidator {
   public function validateInput($input, array $rules = []) {
     $this->errors = [];
 
-    $ruleObjects = $this->parseRules($rules);
+    $ruleParser = new RuleParser();
+    $ruleObjects = $ruleParser->parseRules($rules);
 
     foreach($ruleObjects as $rule) {
       if(! $rule->validate($input)) {
@@ -31,16 +29,6 @@ class MagnificValidator {
     return $this->errors;
   }
 
-  private function parseRules(array $rules) :array {
-    return array_map(function ($rule) {
-      return match(true) {
-        $rule == 'email' => new EmailRule(),
-        $rule == 'url' => new UrlRule(),
-        $rule == 'required' => new RequiredRule(),
-        str_starts_with($rule, 'max:') => new MaxRule((int) substr($rule, 4)),
-        default => throw new \InvalidArgumentException("Unknown rule: $rule"),
-      };
-    }, $rules);
-  }
+  
   
 }
