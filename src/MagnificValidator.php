@@ -2,6 +2,7 @@
 
 namespace Escuelait\MagnificValidator;
 
+use Escuelait\MagnificValidator\Rules\MaxRule;
 use Escuelait\MagnificValidator\Rules\UrlRule;
 use Escuelait\MagnificValidator\Rules\EmailRule;
 use Escuelait\MagnificValidator\Rules\RequiredRule;
@@ -36,6 +37,7 @@ class MagnificValidator {
         $rule == 'email' => new EmailRule(),
         $rule == 'url' => new UrlRule(),
         $rule == 'required' => new RequiredRule(),
+        str_starts_with($rule, 'max:') => new MaxRule((int) substr($rule, 4)),
         default => throw new \InvalidArgumentException("Unknown rule: $rule"),
       };
     }, $rules);

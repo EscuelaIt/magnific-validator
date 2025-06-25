@@ -17,6 +17,8 @@ class MagnificValidatorTest extends TestCase {
       ['alvaro@escuela.it', ['email', 'required']],
       ['https://escuela.it', ['url', 'required']],
       ['https://escuela.it/algo', ['url']],
+      ['Algo que quiero validar', ['required', 'max:40']],
+      ['80', ['required', 'max:100']],
     ];
   }
 
@@ -35,6 +37,8 @@ class MagnificValidatorTest extends TestCase {
       ['no_es_un_email', ['required', 'email']],
       ['no_es_un_email', ['email', 'required']],
       ['escuela.it', ['url', 'required']],
+      ['Algo que quiero validar', ['required', 'max:10']],
+      [1, ['required', 'max:0']],
     ];
   }
 
