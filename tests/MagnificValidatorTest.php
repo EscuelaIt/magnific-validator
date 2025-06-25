@@ -50,6 +50,53 @@ class MagnificValidatorTest extends TestCase {
     $this->assertFalse($result);
   }
 
+  public static function validDataProvider() :array {
+    return [
+      [
+        [ 
+          'email' => 'miguel@escuela.it',
+          'password' => 'secret',
+        ], 
+        [
+          'email' => ['required', 'email'],
+          'password' => ['required', 'max:16'],
+        ]
+      ],
+    ];
+  }
+
+  #[Test]
+  #[DataProvider('validDataProvider')]
+  public function itValidatesCorrectData($data, $dataRules) {
+     $validator =  new MagnificValidator();
+     $result = $validator->validate($data, $dataRules);
+     $this->assertTrue($result);
+  }
+
+
+  public static function invalidDataProvider() :array {
+    return [
+      [
+        [ 
+          'email' => 'escuela.it',
+          'password' => 'secret',
+        ], 
+        [
+          'email' => ['required', 'email'],
+          'password' => ['required', 'max:16'],
+        ]
+      ],
+    ];
+  }
+
+  #[Test]
+  #[DataProvider('invalidDataProvider')]
+  public function itDontValidatesIncorrectData($data, $dataRules) {
+     $validator =  new MagnificValidator();
+     $result = $validator->validate($data, $dataRules);
+     $this->assertFalse($result);
+  }
+
   #[Test]
   public function itRecivesAnExceptionWhenRuleIsNotReal() {
     $validator =  new MagnificValidator();
@@ -67,5 +114,25 @@ class MagnificValidatorTest extends TestCase {
     $errors = $validator->getErrors();
     $this->assertContains('The input should be an email', $errors);
     $this->assertContains('The input is required', $errors);
+  }
+
+  #[Test]
+  public function itGetErrorsOnInvalidData() {
+    $data = [ 
+          'email' => 'escuela.it',
+          'password' => 'sdsdsdsdsdsdasdasdasdsada sdasd asdfsdf sdsdf sd',
+    ];
+    $rules = [
+          'email' => ['required', 'email'],
+          'password' => ['required', 'max:16'],
+    ];
+    $validator =  new MagnificValidator();
+    $result = $validator->validate($data, $rules);
+    $this->assertFalse($result);
+    $errors = $validator->getErrors();
+    $this->assertArrayHasKey('email', $errors);
+    $this->assertArrayHasKey('password', $errors);
+    $this->assertEquals('The input should be an email', $errors['email'][0]);
+    $this->assertEquals('The input should be 16 or less', $errors['password'][0]);
   }
 }

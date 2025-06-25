@@ -29,6 +29,15 @@ class MagnificValidator {
     return $this->errors;
   }
 
-  
+  public function validate($data, $rules) {
+    $errors = [];
+    foreach($rules as $key => $rule) {
+      if(! $this->validateInput($data[$key], $rule)) {
+        $errors[$key] = $this->errors;
+      }
+    }
+    $this->errors = $errors;
+    return count($errors) == 0;
+  }
   
 }
