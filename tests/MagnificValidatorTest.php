@@ -5,62 +5,44 @@ namespace Escuelait\Tests\MagnificValidator;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Escuelait\MagnificValidator\MagnificValidator;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class MagnificValidatorTest extends TestCase {
 
+  public static function validInputProvider() :array {
+    return [
+      ['miguel@escuela.it', []],
+      ['miguel@escuela.it', ['email']],
+      ['EscuelaIT', ['required']],
+      ['alvaro@escuela.it', ['email', 'required']],
+      ['https://escuela.it', ['url', 'required']],
+      ['https://escuela.it/algo', ['url']],
+    ];
+  }
+
   #[Test]
-  public function inputIsAlwaysValidWhenRulesAreNotDefined() {
+  #[DataProvider('validInputProvider')]
+  public function itValidatesCorrectInput($input, $rules) {
     $validator =  new MagnificValidator();
-    $result = $validator->validateInput('miguel@escuela.it');
+    $result = $validator->validateInput($input, $rules);
     $this->assertTrue($result);
   }
 
-  #[Test]
-  public function itValidatesCorrectEmails() {
-    $validator =  new MagnificValidator();
-    $result = $validator->validateInput('miguel@escuela.it', ['email']);
-    $this->assertTrue($result);
+  public static function invalidInputProvider() :array {
+    return [
+      ['@escuela.it', ['email']],
+      ['', ['required']],
+      ['no_es_un_email', ['required', 'email']],
+      ['no_es_un_email', ['email', 'required']],
+      ['escuela.it', ['url', 'required']],
+    ];
   }
 
   #[Test]
-  public function itValidatesIncorrectEmails() {
+  #[DataProvider('invalidInputProvider')]
+  public function itDontValidatesIncorrectInput($input, $rules) {
     $validator =  new MagnificValidator();
-    $result = $validator->validateInput('@escuela.it', ['email']);
-    $this->assertFalse($result);
-  }
-
-  #[Test]
-  public function itValidatesRequiredInput() {
-    $validator =  new MagnificValidator();
-    $result = $validator->validateInput('EscuelaIT', ['required']);
-    $this->assertTrue($result);
-  }
-
-  #[Test]
-  public function itValidatesRequiredInputIsNotProvided() {
-    $validator =  new MagnificValidator();
-    $result = $validator->validateInput('', ['required']);
-    $this->assertFalse($result);
-  }
-
-  #[Test]
-  public function itValidatesRequiredAndEmailInput() {
-    $validator =  new MagnificValidator();
-    $result = $validator->validateInput('alvaro@escuela.it', ['email', 'required']);
-    $this->assertTrue($result);
-  }
-
-  #[Test]
-  public function itValidatesIncorrectRequiredAndEmailInput() {
-    $validator =  new MagnificValidator();
-    $result = $validator->validateInput('no_es_un_email', ['required', 'email']);
-    $this->assertFalse($result);
-  }
-
-  #[Test]
-  public function itValidatesIncorrectEmailAndRequiredInput() {
-    $validator =  new MagnificValidator();
-    $result = $validator->validateInput('no_es_un_email', ['email', 'required']);
+    $result = $validator->validateInput($input, $rules);
     $this->assertFalse($result);
   }
 

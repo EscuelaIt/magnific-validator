@@ -2,6 +2,7 @@
 
 namespace Escuelait\MagnificValidator;
 
+use Escuelait\MagnificValidator\Rules\UrlRule;
 use Escuelait\MagnificValidator\Rules\EmailRule;
 use Escuelait\MagnificValidator\Rules\RequiredRule;
 
@@ -33,6 +34,7 @@ class MagnificValidator {
     return array_map(function ($rule) {
       return match(true) {
         $rule == 'email' => new EmailRule(),
+        $rule == 'url' => new UrlRule(),
         $rule == 'required' => new RequiredRule(),
         default => throw new \InvalidArgumentException("Unknown rule: $rule"),
       };
