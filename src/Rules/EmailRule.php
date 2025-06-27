@@ -9,7 +9,7 @@ class EmailRule implements ValidationRule {
   }
 
   public function message() : string {
-    return 'The input should be an correo electronico';
+    return 'The input should be an email';
   }
   
 }
