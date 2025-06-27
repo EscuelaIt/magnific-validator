@@ -19,6 +19,7 @@ class MagnificValidatorTest extends TestCase {
       ['https://escuela.it/algo', ['url']],
       ['Algo que quiero validar', ['required', 'max:40']],
       ['80', ['required', 'max:100']],
+      ['https://escuela.it', ['url', 'required', 'max:200']],
     ];
   }
 
