@@ -8,6 +8,7 @@ class RuleParser {
       return match(true) {
         $rule == 'email' => new EmailRule(),
         $rule == 'url' => new UrlRule(),
+        $rule == 'integer' => new IntegerRule(),
         $rule == 'required' => new RequiredRule(),
         str_starts_with($rule, 'max:') => new MaxRule((int) substr($rule, 4)),
         default => throw new \InvalidArgumentException("Unknown rule: $rule"),
