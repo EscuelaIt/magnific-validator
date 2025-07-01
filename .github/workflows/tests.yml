@@ -36,6 +36,12 @@ jobs:
       - name: Install Dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      - name: Validate composer.json
+        run: composer validate --strict
+      
+      - name: Check for security vulnerabilities
+        run: composer audit
+
       - name: Run PHP CS Fixer check
         run: vendor/bin/php-cs-fixer fix --dry-run --diff
 
