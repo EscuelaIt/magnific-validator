@@ -10,8 +10,7 @@ class MagnificValidator
 {
     private array $errors;
 
-    public function validateInput($input, array $rules = [])
-    {
+    public function validateInput($input, array $rules = []) {
         $this->errors = [];
 
         $ruleParser = new RuleParser();
