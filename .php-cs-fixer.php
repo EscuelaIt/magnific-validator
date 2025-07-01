@@ -14,6 +14,8 @@ return (new PhpCsFixer\Config())
         'strict_comparison' => true,
         'strict_param' => true,
         'declare_strict_types' => true,
+        'no_unused_imports' => true,
+        'ordered_imports' => true,
     ])
     ->setFinder($finder)
 ;

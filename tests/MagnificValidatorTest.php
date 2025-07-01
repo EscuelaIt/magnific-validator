@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Escuelait\Tests\MagnificValidator;
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 use Escuelait\MagnificValidator\MagnificValidator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase;
 
 class MagnificValidatorTest extends TestCase
 {

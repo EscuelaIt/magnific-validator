@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Escuelait\Tests\MagnificValidator\Rules;
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 use Escuelait\MagnificValidator\Rules\IntegerRule;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase;
 
 class IntegerRuleTest extends TestCase
 {
