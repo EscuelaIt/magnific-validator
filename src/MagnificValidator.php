@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Escuelait\MagnificValidator;
 
 use Escuelait\MagnificValidator\Rules\RuleParser;

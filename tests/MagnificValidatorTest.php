@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Escuelait\Tests\MagnificValidator;
 
 use PHPUnit\Framework\TestCase;

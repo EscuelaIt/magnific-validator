@@ -13,6 +13,7 @@ return (new PhpCsFixer\Config())
         '@PHP82Migration' => true,
         'strict_comparison' => true,
         'strict_param' => true,
+        'declare_strict_types' => true,
     ])
     ->setFinder($finder)
 ;
