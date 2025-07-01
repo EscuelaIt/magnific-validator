@@ -36,5 +36,8 @@ jobs:
       - name: Install Dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      - name: Run PHP CS Fixer check
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff
+
       - name: Run PHPUnit Tests
         run: vendor/bin/phpunit
