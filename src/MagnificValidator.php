@@ -4,40 +4,43 @@ namespace Escuelait\MagnificValidator;
 
 use Escuelait\MagnificValidator\Rules\RuleParser;
 
-class MagnificValidator {
+class MagnificValidator
+{
+    private array $errors;
 
-  private array $errors;
+    public function validateInput($input, array $rules = [])
+    {
+        $this->errors = [];
 
-  public function validateInput($input, array $rules = []) {
-    $this->errors = [];
+        $ruleParser = new RuleParser();
+        $ruleObjects = $ruleParser->parseRules($rules);
 
-    $ruleParser = new RuleParser();
-    $ruleObjects = $ruleParser->parseRules($rules);
-
-    foreach($ruleObjects as $rule) {
-      if(! $rule->validate($input)) {
-        $this->errors[] = $rule->message();
-      }
+        foreach ($ruleObjects as $rule) {
+            if (! $rule->validate($input)) {
+                $this->errors[] = $rule->message();
+            }
+        }
+        if (count($this->errors) > 0) {
+            return false;
+        }
+        return true;
     }
-    if(count($this->errors) > 0) {
-      return false;
-    }
-    return true;
-  }
 
-  public function getErrors() {
-    return $this->errors;
-  }
-
-  public function validate($data, $rules) {
-    $errors = [];
-    foreach($rules as $key => $rule) {
-      if(! $this->validateInput($data[$key], $rule)) {
-        $errors[$key] = $this->errors;
-      }
+    public function getErrors()
+    {
+        return $this->errors;
     }
-    $this->errors = $errors;
-    return count($errors) == 0;
-  }
-  
+
+    public function validate($data, $rules)
+    {
+        $errors = [];
+        foreach ($rules as $key => $rule) {
+            if (! $this->validateInput($data[$key], $rule)) {
+                $errors[$key] = $this->errors;
+            }
+        }
+        $this->errors = $errors;
+        return count($errors) == 0;
+    }
+
 }
