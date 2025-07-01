@@ -7,9 +7,12 @@ $finder = (new PhpCsFixer\Finder())
 ;
 
 return (new PhpCsFixer\Config())
+    ->setRiskyAllowed(true)
     ->setRules([
         '@PSR12' => true,
         '@PHP82Migration' => true,
+        'strict_comparison' => true,
+        'strict_param' => true,
     ])
     ->setFinder($finder)
 ;

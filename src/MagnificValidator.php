@@ -40,7 +40,7 @@ class MagnificValidator
             }
         }
         $this->errors = $errors;
-        return count($errors) == 0;
+        return count($errors) === 0;
     }
 
 }
