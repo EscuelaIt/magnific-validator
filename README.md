@@ -25,27 +25,8 @@ composer require escuelait/magnific-validator
 
 ## 🧪 Basic Usage
 
-### Validate a single input
-
 ```php
-use Escuelait\MagnificValidator\MagnificValidator;
-
-$validator = new MagnificValidator();
-
-$input = 'miguel@escuela.it';
-$rules = ['required', 'email'];
-
-if ($validator->validateInput($input, $rules)) {
-    echo "Valid input!";
-} else {
-    print_r($validator->getErrors());
-}
-```
-
-### Validate multiple fields
-
-```php
-use Escuelait\MagnificValidator\MagnificValidator;
+use Escuelait\MagnificValidator\Validator;
 
 $data = [
     'email' => 'user@example.com',
@@ -57,12 +38,13 @@ $rules = [
     'password' => ['required', 'max:16'],
 ];
 
-$validator = new MagnificValidator();
-
-if ($validator->validate($data, $rules)) {
+$validator = new Validator($rules);
+$errors = $validator->validate($data);
+if (empty($errors)) {
     echo "Valid data!";
 } else {
-    print_r($validator->getErrors());
+    echo "Has validation errors:\n"; 
+    print_r($errors);
 }
 ```
 
