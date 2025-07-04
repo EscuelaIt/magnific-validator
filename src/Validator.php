@@ -8,14 +8,14 @@ class Validator
 {
     public function validate($values, $rules)
     {
-        $errors = [];
+        $formErrors = [];
         foreach ($rules as $fieldName => $ruleNames) {
-            $valueErrors = $this->validateValue($values[$fieldName], $ruleNames);
-            if (count($valueErrors) > 0) {
-                $errors[$fieldName] = $valueErrors;
+            $fieldErrors = $this->validateValue($values[$fieldName], $ruleNames);
+            if (count($fieldErrors) > 0) {
+                $formErrors[$fieldName] = $fieldErrors;
             }
         }
-        return $errors;
+        return $formErrors;
     }
 
     private function validateValue($value, array $rulesNames = [])
