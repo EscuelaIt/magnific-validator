@@ -6,7 +6,7 @@ namespace Escuelait\MagnificValidator;
 
 class Validator
 {
-    public function validate($values, $rules) :array 
+    public function validate($values, $rules): array
     {
         $formErrors = [];
         foreach ($rules as $fieldName => $ruleNames) {
@@ -23,8 +23,8 @@ class Validator
         $compositeErrors = [];
         foreach ((new ValidatorsFactory())->createValidators($rulesNames) as $validator) {
             $validatorErrors = $validator->validate($value);
-            if (count($validatorErrors) != 0) {
-                foreach($validatorErrors as $error) {
+            if (count($validatorErrors) !== 0) {
+                foreach ($validatorErrors as $error) {
                     $compositeErrors[] = $error;
                 }
             }
