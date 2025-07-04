@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Escuelait\Tests\MagnificValidator;
 
-use Escuelait\MagnificValidator\Rules\EmailRule;
+use Escuelait\MagnificValidator\EmailRule;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 

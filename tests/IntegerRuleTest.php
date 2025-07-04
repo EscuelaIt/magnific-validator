@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Escuelait\Tests\MagnificValidator;
 
-use Escuelait\MagnificValidator\Rules\IntegerRule;
+use Escuelait\MagnificValidator\IntegerRule;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
