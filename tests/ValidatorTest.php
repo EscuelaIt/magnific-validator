@@ -227,8 +227,8 @@ class ValidatorTest extends TestCase
     {
         $validator =  new Validator();
         $errors = $validator->validate(
-          ['email' => ''], 
-          ['email' => ['email', 'required']]
+            ['email' => ''],
+            ['email' => ['email', 'required']]
         );
         $this->assertNotEmpty($errors);
         $this->assertContains('The input should be an email', $errors['email']);
