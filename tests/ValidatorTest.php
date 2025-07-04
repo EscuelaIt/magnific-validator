@@ -14,17 +14,87 @@ class ValidatorTest extends TestCase
     public static function validInputProvider(): array
     {
         return [
-          ['miguel@escuela.it', []],
-          ['miguel@escuela.it', ['email']],
-          ['EscuelaIT', ['required']],
-          ['alvaro@escuela.it', ['email', 'required']],
-          ['https://escuela.it', ['url', 'required']],
-          ['https://escuela.it/algo', ['url']],
-          ['Algo que quiero validar', ['required', 'max:40']],
-          ['80', ['integer', 'required', 'max:100']],
-          ['https://escuela.it', ['url', 'required', 'max:200']],
-          [34, ['required', 'integer']],
-        ];
+              [
+                  [
+                      'email' => 'miguel@escuela.it',
+                  ],
+                  [
+                      'email' => [],
+                  ],
+              ],
+              [
+                  [
+                      'email' => 'miguel@escuela.it',
+                  ],
+                  [
+                      'email' => ['email'],
+                  ],
+              ],
+              [
+                  [
+                      'name' => 'EscuelaIT',
+                  ],
+                  [
+                      'name' => ['required'],
+                  ],
+              ],
+              [
+                  [
+                      'email' => 'alvaro@escuela.it',
+                  ],
+                  [
+                      'email' => ['email', 'required'],
+                  ],
+              ],
+              [
+                  [
+                      'url' => 'https://escuela.it',
+                  ],
+                  [
+                      'url' => ['url', 'required'],
+                  ],
+              ],
+              [
+                  [
+                      'url' => 'https://escuela.it/algo',
+                  ],
+                  [
+                      'url' => ['url'],
+                  ],
+              ],
+              [
+                  [
+                      'comment' => 'Algo que quiero validar',
+                  ],
+                  [
+                      'comment' => ['required', 'max:40'],
+                  ],
+              ],
+              [
+                  [
+                      'years' => '80',
+                  ],
+                  [
+                      'years' => ['integer', 'required', 'max:100'],
+                  ],
+              ],
+              [
+                  [
+                      'url' => 'https://escuela.it',
+                  ],
+                  [
+                      'url' => ['url', 'required', 'max:200'],
+                  ],
+              ],
+              [
+                  [
+                      'cantidad' => 34,
+                  ],
+                  [
+                      'cantidad' => ['required', 'integer'],
+                  ],
+              ],
+          ];
     }
 
     #[Test]
@@ -32,31 +102,59 @@ class ValidatorTest extends TestCase
     public function itValidatesCorrectInput($input, $rules)
     {
         $validator =  new Validator();
-        $errors = $validator->validateValue($input, $rules);
+        $errors = $validator->validate($input, $rules);
         $this->assertEmpty($errors);
     }
 
     public static function invalidInputProvider(): array
     {
         return [
-          ['@escuela.it', ['email']],
-          ['', ['required']],
-          ['no_es_un_email', ['required', 'email']],
-          ['no_es_un_email', ['email', 'required']],
-          ['escuela.it', ['url', 'required']],
-          ['Algo que quiero validar', ['required', 'max:10']],
-          ['234a', ['required', 'integer']],
-          ['', ['integer']],
-          [1, ['required', 'max:0']],
+            [
+                ['email' => '@escuela.it'],
+                ['email' => ['email']],
+            ],
+            [
+                ['name' => ''],
+                ['name' => ['required']],
+            ],
+            [
+                ['email' => 'no_es_un_email'],
+                ['email' => ['required', 'email']],
+            ],
+            [
+                ['email' => 'no_es_un_email'],
+                ['email' => ['email', 'required']],
+            ],
+            [
+                ['website' => 'escuela.it'],
+                ['website' => ['url', 'required']],
+            ],
+            [
+                ['comment' => 'Algo que quiero validar'],
+                ['comment' => ['required', 'max:10']],
+            ],
+            [
+                ['age' => '234a'],
+                ['age' => ['required', 'integer']],
+            ],
+            [
+                ['quantity' => ''],
+                ['quantity' => ['integer']],
+            ],
+            [
+                ['score' => 1],
+                ['score' => ['required', 'max:0']],
+            ],
         ];
     }
+
 
     #[Test]
     #[DataProvider('invalidInputProvider')]
     public function itDontValidatesIncorrectInput($input, $rules)
     {
         $validator =  new Validator();
-        $errors = $validator->validateValue($input, $rules);
+        $errors = $validator->validate($input, $rules);
         $this->assertNotEmpty($errors);
     }
 
@@ -118,17 +216,23 @@ class ValidatorTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unknown rule: not_a_real_rule');
 
-        $validator->validateValue('something', ['required', 'not_a_real_rule']);
+        $validator->validate(
+            ['comment' => 'something'],
+            ['comment' => ['required', 'not_a_real_rule']],
+        );
     }
 
     #[Test]
     public function itInformsValidationErrors()
     {
         $validator =  new Validator();
-        $errors = $validator->validateValue('', ['email', 'required']);
+        $errors = $validator->validate(
+          ['email' => ''], 
+          ['email' => ['email', 'required']]
+        );
         $this->assertNotEmpty($errors);
-        $this->assertContains('The input should be an email', $errors);
-        $this->assertContains('The input is required', $errors);
+        $this->assertContains('The input should be an email', $errors['email']);
+        $this->assertContains('The input is required', $errors['email']);
     }
 
     #[Test]
