@@ -101,8 +101,8 @@ class ValidatorTest extends TestCase
     #[DataProvider('validInputProvider')]
     public function itValidatesCorrectInput($input, $rules)
     {
-        $validator =  new Validator();
-        $errors = $validator->validate($input, $rules);
+        $validator =  new Validator($rules);
+        $errors = $validator->validate($input);
         $this->assertEmpty($errors);
     }
 
@@ -153,8 +153,8 @@ class ValidatorTest extends TestCase
     #[DataProvider('invalidInputProvider')]
     public function itDontValidatesIncorrectInput($input, $rules)
     {
-        $validator =  new Validator();
-        $errors = $validator->validate($input, $rules);
+        $validator =  new Validator($rules);
+        $errors = $validator->validate($input);
         $this->assertNotEmpty($errors);
     }
 
@@ -178,8 +178,8 @@ class ValidatorTest extends TestCase
     #[DataProvider('validDataProvider')]
     public function itValidatesCorrectData($data, $dataRules)
     {
-        $validator =  new Validator();
-        $errors = $validator->validate($data, $dataRules);
+        $validator =  new Validator($dataRules);
+        $errors = $validator->validate($data);
         $this->assertEmpty($errors);
     }
 
@@ -204,31 +204,27 @@ class ValidatorTest extends TestCase
     #[DataProvider('invalidDataProvider')]
     public function itDontValidatesIncorrectData($data, $dataRules)
     {
-        $validator =  new Validator();
-        $errors = $validator->validate($data, $dataRules);
+        $validator =  new Validator($dataRules);
+        $errors = $validator->validate($data);
         $this->assertNotEmpty($errors);
     }
 
     #[Test]
     public function itRecivesAnExceptionWhenRuleIsNotReal()
     {
-        $validator =  new Validator();
+        $validator =  new Validator(['comment' => ['required', 'not_a_real_rule']]);
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unknown rule: not_a_real_rule');
 
-        $validator->validate(
-            ['comment' => 'something'],
-            ['comment' => ['required', 'not_a_real_rule']],
-        );
+        $validator->validate(['comment' => 'something']);
     }
 
     #[Test]
     public function itInformsValidationErrors()
     {
-        $validator =  new Validator();
+        $validator =  new Validator(['email' => ['email', 'required']]);
         $errors = $validator->validate(
-            ['email' => ''],
-            ['email' => ['email', 'required']]
+            ['email' => '']
         );
         $this->assertNotEmpty($errors);
         $this->assertContains('The input should be an email', $errors['email']);
@@ -246,8 +242,8 @@ class ValidatorTest extends TestCase
               'email' => ['required', 'email'],
               'password' => ['required', 'max:16'],
         ];
-        $validator =  new Validator();
-        $errors = $validator->validate($data, $rules);
+        $validator =  new Validator($rules);
+        $errors = $validator->validate($data);
         $this->assertNotEmpty($errors);
         $this->assertArrayHasKey('email', $errors);
         $this->assertArrayHasKey('password', $errors);

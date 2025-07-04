@@ -4,12 +4,19 @@ declare(strict_types=1);
 
 namespace Escuelait\MagnificValidator;
 
-class Validator
+class Validator implements ValidationInterface
 {
-    public function validate($values, $rules): array
+    private $rules;
+
+    public function __construct(array $rules)
+    {
+        $this->rules = $rules;
+    }
+
+    public function validate($values): array
     {
         $formErrors = [];
-        foreach ($rules as $fieldName => $ruleNames) {
+        foreach ($this->rules as $fieldName => $ruleNames) {
             $fieldErrors = $this->validateValue($values[$fieldName], $ruleNames);
             if (count($fieldErrors) > 0) {
                 $formErrors[$fieldName] = $fieldErrors;
