@@ -14,22 +14,16 @@ class UrlValidatorTest extends TestCase
     public function itValidatesCorrectUrls()
     {
         $urlValidator = new UrlValidator();
-        $result = $urlValidator->validate('http://example.com');
-        $this->assertTrue($result);
+        $errors = $urlValidator->validate('http://example.com');
+        $this->assertEmpty($errors);
     }
 
     #[Test]
     public function itValidatesIncorrectUrls()
     {
         $urlValidator = new UrlValidator();
-        $result = $urlValidator->validate('url:invalida');
-        $this->assertFalse($result);
-    }
-
-    #[Test]
-    public function itReturnsExpectedMessage()
-    {
-        $urlValidator = new UrlValidator();
-        $this->assertEquals('The input should be an url', $urlValidator->message());
+        $errors = $urlValidator->validate('url:invalida');
+        $this->assertNotEmpty($errors);
+        $this->assertContains('The input should be an url', $errors);
     }
 }

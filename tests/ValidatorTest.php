@@ -252,6 +252,6 @@ class ValidatorTest extends TestCase
         $this->assertArrayHasKey('email', $errors);
         $this->assertArrayHasKey('password', $errors);
         $this->assertEquals('The input should be an email', $errors['email'][0]);
-        $this->assertEquals('The input should be 16 or less', $errors['password'][0]);
+        $this->assertEquals('The input length should be 16 or less', $errors['password'][0]);
     }
 }

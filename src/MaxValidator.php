@@ -13,16 +13,11 @@ class MaxValidator implements ValidationInterface
         $this->max = $max;
     }
 
-    public function validate(mixed $value): bool
+    public function validate(mixed $value): array
     {
         if (is_numeric($value)) {
-            return $value <= $this->max;
+            return $value <= $this->max ? [] : ["The input should be {$this->max} or less"];
         }
-        return mb_strlen($value) <= $this->max;
-    }
-
-    public function message(): string
-    {
-        return "The input should be {$this->max} or less";
+        return mb_strlen($value) <= $this->max ? [] : ["The input length should be {$this->max} or less"];
     }
 }

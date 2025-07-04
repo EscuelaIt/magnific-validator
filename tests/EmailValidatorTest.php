@@ -14,22 +14,16 @@ class EmailValidatorTest extends TestCase
     public function itValidatesCorrectEmails()
     {
         $emailValidator = new EmailValidator();
-        $result = $emailValidator->validate('miguel@escuela.it');
-        $this->assertTrue($result);
+        $errors = $emailValidator->validate('miguel@escuela.it');
+        $this->assertEmpty($errors);
     }
 
     #[Test]
     public function itValidatesIncorrectEmails()
     {
         $emailValidator = new EmailValidator();
-        $result = $emailValidator->validate('@escuela.it');
-        $this->assertFalse($result);
-    }
-
-    #[Test]
-    public function itReturnsExpectedMessage()
-    {
-        $emailValidator = new EmailValidator();
-        $this->assertEquals('The input should be an email', $emailValidator->message());
+        $errors = $emailValidator->validate('@escuela.it');
+        $this->assertNotEmpty($errors);
+        $this->assertContains('The input should be an email', $errors);
     }
 }

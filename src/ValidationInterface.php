@@ -6,7 +6,5 @@ namespace Escuelait\MagnificValidator;
 
 interface ValidationInterface
 {
-    public function validate(mixed $value): bool;
-
-    public function message(): string;
+    public function validate(mixed $value): array;
 }

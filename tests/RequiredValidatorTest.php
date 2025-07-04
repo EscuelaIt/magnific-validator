@@ -14,22 +14,16 @@ class RequiredValidatorTest extends TestCase
     public function itValidatesRequired()
     {
         $requiredValidator = new RequiredValidator();
-        $result = $requiredValidator->validate('something');
-        $this->assertTrue($result);
+        $errors = $requiredValidator->validate('something');
+        $this->assertEmpty($errors);
     }
 
     #[Test]
     public function itValidatesNotRequired()
     {
         $requiredValidator = new RequiredValidator();
-        $result = $requiredValidator->validate('');
-        $this->assertFalse($result);
-    }
-
-    #[Test]
-    public function itReturnsExpectedMessage()
-    {
-        $requiredValidator = new RequiredValidator();
-        $this->assertEquals('The input is required', $requiredValidator->message());
+        $errors = $requiredValidator->validate('');
+        $this->assertNotEmpty($errors);
+        $this->assertContains('The input is required', $errors);
     }
 }

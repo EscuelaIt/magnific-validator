@@ -6,13 +6,10 @@ namespace Escuelait\MagnificValidator;
 
 class UrlValidator implements ValidationInterface
 {
-    public function validate(mixed $input): bool
+    public function validate(mixed $input): array
     {
-        return filter_var($input, FILTER_VALIDATE_URL) !== false;
-    }
-
-    public function message(): string
-    {
-        return 'The input should be an url';
+        return filter_var($input, FILTER_VALIDATE_URL) !== false
+            ? []
+            : ['The input should be an url'];
     }
 }

@@ -14,54 +14,50 @@ class MaxValidatorTest extends TestCase
     public function itValidatesCorrectMax()
     {
         $maxValidator = new MaxValidator(50);
-        $result = $maxValidator->validate(50);
-        $this->assertTrue(($result));
+        $errors = $maxValidator->validate(50);
+        $this->assertEmpty($errors);
     }
 
     #[Test]
     public function itDontValidatesValueGreaterThanMax()
     {
         $maxValidator = new MaxValidator(50);
-        $result = $maxValidator->validate(51);
-        $this->assertFalse(($result));
+        $errors = $maxValidator->validate(51);
+        $this->assertNotEmpty($errors);
+        $this->assertContains("The input should be 50 or less", $errors);
     }
 
     #[Test]
     public function itDontValidatesValueStringGreaterThanMax()
     {
         $maxValidator = new MaxValidator(50);
-        $result = $maxValidator->validate('51');
-        $this->assertFalse(($result));
+        $errors = $maxValidator->validate('51');
+        $this->assertNotEmpty($errors);
+        $this->assertContains("The input should be 50 or less", $errors);
     }
 
     #[Test]
     public function itValidatesValueStringLessThanMax()
     {
         $maxValidator = new MaxValidator(50);
-        $result = $maxValidator->validate('5');
-        $this->assertTrue(($result));
+        $errors = $maxValidator->validate('5');
+        $this->assertEmpty($errors);
     }
 
     #[Test]
     public function itValidatesStringWithCorrectChars()
     {
         $maxValidator = new MaxValidator(5);
-        $result = $maxValidator->validate('hola');
-        $this->assertTrue(($result));
+        $errors = $maxValidator->validate('hola');
+        $this->assertEmpty($errors);
     }
 
     #[Test]
     public function itDontValidatesStringWithMoreChars()
     {
         $maxValidator = new MaxValidator(3);
-        $result = $maxValidator->validate('hola');
-        $this->assertFalse(($result));
-    }
-
-    #[Test]
-    public function itReturnsExpectedMessage()
-    {
-        $maxValidator = new MaxValidator(3);
-        $this->assertEquals("The input should be 3 or less", $maxValidator->message());
+        $errors = $maxValidator->validate('hola');
+        $this->assertNotEmpty($errors);
+        $this->assertContains("The input length should be 3 or less", $errors);
     }
 }

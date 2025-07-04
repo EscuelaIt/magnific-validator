@@ -15,10 +15,10 @@ class IntegerValidatorTest extends TestCase
     {
         $integerValidator = new IntegerValidator();
 
-        $this->assertTrue($integerValidator->validate(123));
-        $this->assertTrue($integerValidator->validate('456'));
-        $this->assertTrue($integerValidator->validate(0));
-        $this->assertTrue($integerValidator->validate(-789));
+        $this->assertEmpty($integerValidator->validate(123));
+        $this->assertEmpty($integerValidator->validate('456'));
+        $this->assertEmpty($integerValidator->validate(0));
+        $this->assertEmpty($integerValidator->validate(-789));
     }
 
     #[Test]
@@ -26,16 +26,19 @@ class IntegerValidatorTest extends TestCase
     {
         $integerValidator = new IntegerValidator();
 
-        $this->assertFalse($integerValidator->validate(12.34));
-        $this->assertFalse($integerValidator->validate('abc'));
-        $this->assertFalse($integerValidator->validate('123abc'));
-        $this->assertFalse($integerValidator->validate(null));
-    }
+        $this->assertNotEmpty($integerValidator->validate(12.34));
+        $this->assertNotEmpty($integerValidator->validate('abc'));
+        $this->assertNotEmpty($integerValidator->validate('123abc'));
+        $this->assertNotEmpty($integerValidator->validate(null));
 
-    #[Test]
-    public function itReturnsExpectedMessage()
-    {
-        $integerValidator = new IntegerValidator();
-        $this->assertEquals('The input should be an integer', $integerValidator->message());
+        foreach ([
+            12.34,
+            'abc',
+            '123abc',
+            null,
+        ] as $input) {
+            $errors = $integerValidator->validate($input);
+            $this->assertContains('The input should be an integer', $errors);
+        }
     }
 }

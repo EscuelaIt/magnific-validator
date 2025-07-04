@@ -6,14 +6,10 @@ namespace Escuelait\MagnificValidator;
 
 class RequiredValidator implements ValidationInterface
 {
-    public function validate(mixed $input): bool
+    public function validate(mixed $input): array
     {
-        return ! is_null($input) && $input !== '';
+        return (! is_null($input) && $input !== '')
+            ? []
+            : ['The input is required'];
     }
-
-    public function message(): string
-    {
-        return 'The input is required';
-    }
-
 }
