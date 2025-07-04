@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Escuelait\Tests\MagnificValidator;
 
-use Escuelait\MagnificValidator\MagnificValidator;
+use Escuelait\MagnificValidator\Validator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class MagnificValidatorTest extends TestCase
+class ValidatorTest extends TestCase
 {
     public static function validInputProvider(): array
     {
@@ -31,8 +31,8 @@ class MagnificValidatorTest extends TestCase
     #[DataProvider('validInputProvider')]
     public function itValidatesCorrectInput($input, $rules)
     {
-        $validator =  new MagnificValidator();
-        $result = $validator->validateInput($input, $rules);
+        $validator =  new Validator();
+        $result = $validator->validateValue($input, $rules);
         $this->assertTrue($result);
     }
 
@@ -55,8 +55,8 @@ class MagnificValidatorTest extends TestCase
     #[DataProvider('invalidInputProvider')]
     public function itDontValidatesIncorrectInput($input, $rules)
     {
-        $validator =  new MagnificValidator();
-        $result = $validator->validateInput($input, $rules);
+        $validator =  new Validator();
+        $result = $validator->validateValue($input, $rules);
         $this->assertFalse($result);
     }
 
@@ -80,7 +80,7 @@ class MagnificValidatorTest extends TestCase
     #[DataProvider('validDataProvider')]
     public function itValidatesCorrectData($data, $dataRules)
     {
-        $validator =  new MagnificValidator();
+        $validator =  new Validator();
         $result = $validator->validate($data, $dataRules);
         $this->assertTrue($result);
     }
@@ -106,7 +106,7 @@ class MagnificValidatorTest extends TestCase
     #[DataProvider('invalidDataProvider')]
     public function itDontValidatesIncorrectData($data, $dataRules)
     {
-        $validator =  new MagnificValidator();
+        $validator =  new Validator();
         $result = $validator->validate($data, $dataRules);
         $this->assertFalse($result);
     }
@@ -114,18 +114,18 @@ class MagnificValidatorTest extends TestCase
     #[Test]
     public function itRecivesAnExceptionWhenRuleIsNotReal()
     {
-        $validator =  new MagnificValidator();
+        $validator =  new Validator();
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unknown rule: not_a_real_rule');
 
-        $validator->validateInput('something', ['required', 'not_a_real_rule']);
+        $validator->validateValue('something', ['required', 'not_a_real_rule']);
     }
 
     #[Test]
     public function itInformsValidationErrors()
     {
-        $validator =  new MagnificValidator();
-        $result = $validator->validateInput('', ['email', 'required']);
+        $validator =  new Validator();
+        $result = $validator->validateValue('', ['email', 'required']);
         $this->assertFalse($result);
         $errors = $validator->getErrors();
         $this->assertContains('The input should be an email', $errors);
@@ -143,7 +143,7 @@ class MagnificValidatorTest extends TestCase
               'email' => ['required', 'email'],
               'password' => ['required', 'max:16'],
         ];
-        $validator =  new MagnificValidator();
+        $validator =  new Validator();
         $result = $validator->validate($data, $rules);
         $this->assertFalse($result);
         $errors = $validator->getErrors();

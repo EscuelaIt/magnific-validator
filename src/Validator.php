@@ -6,11 +6,11 @@ namespace Escuelait\MagnificValidator;
 
 use Escuelait\MagnificValidator\Rules\RuleParser;
 
-class MagnificValidator
+class Validator
 {
     private array $errors;
 
-    public function validateInput($input, array $rules = [])
+    public function validateValue($value, array $rules = [])
     {
         $this->errors = [];
 
@@ -18,7 +18,7 @@ class MagnificValidator
         $ruleObjects = $ruleParser->parseRules($rules);
 
         foreach ($ruleObjects as $rule) {
-            if (! $rule->validate($input)) {
+            if (! $rule->validate($value)) {
                 $this->errors[] = $rule->message();
             }
         }
@@ -33,11 +33,11 @@ class MagnificValidator
         return $this->errors;
     }
 
-    public function validate($data, $rules)
+    public function validate($values, $rules)
     {
         $errors = [];
         foreach ($rules as $key => $rule) {
-            if (! $this->validateInput($data[$key], $rule)) {
+            if (! $this->validateValue($values[$key], $rule)) {
                 $errors[$key] = $this->errors;
             }
         }
