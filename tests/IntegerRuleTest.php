@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Escuelait\Tests\MagnificValidator\Rules;
+namespace Escuelait\Tests\MagnificValidator;
 
 use Escuelait\MagnificValidator\Rules\IntegerRule;
 use PHPUnit\Framework\Attributes\Test;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Escuelait\MagnificValidator\Rules;
+namespace Escuelait\MagnificValidator;
 
 class MaxRule implements ValidationRule
 {

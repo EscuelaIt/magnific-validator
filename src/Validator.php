@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Escuelait\MagnificValidator;
 
-use Escuelait\MagnificValidator\Rules\RuleParser;
-
 class Validator
 {
     public function validate($values, $rules)
