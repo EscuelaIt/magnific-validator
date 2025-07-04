@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Escuelait\MagnificValidator;
 
-class RuleParser
+class RulesFactory
 {
-    public function parseRules(array $rules): array
+    public function createRules(array $rules): array
     {
         return array_map(function ($rule) {
             return match(true) {
