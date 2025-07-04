@@ -14,8 +14,7 @@ class Validator
     {
         $this->errors = [];
 
-        $ruleParser = new RuleParser();
-        $ruleObjects = $ruleParser->parseRules($rules);
+        $ruleObjects = (new RuleParser())->parseRules($rules);
 
         foreach ($ruleObjects as $rule) {
             if (! $rule->validate($value)) {
