@@ -14,7 +14,7 @@ class RuleParser
                 $rule === 'url' => new UrlRule(),
                 $rule === 'integer' => new IntegerRule(),
                 $rule === 'required' => new RequiredRule(),
-                str_starts_with($rule, 'max:') => new MaxRule((int) substr($rule, 4)),
+                str_starts_with($rule, 'max:') => new MaxRule((int) substr($rule, strlen('max:'))),
                 default => throw new \InvalidArgumentException("Unknown rule: $rule"),
             };
         }, $rules);
