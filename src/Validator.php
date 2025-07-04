@@ -8,11 +8,10 @@ use Escuelait\MagnificValidator\Rules\RuleParser;
 
 class Validator
 {
-    public function validateValue($value, array $rules = [])
+    public function validateValue($value, array $rulesNames = [])
     {
         $errors = [];
-
-        foreach ((new RuleParser())->parseRules($rules) as $rule) {
+        foreach ((new RuleParser())->parseRules($rulesNames) as $rule) {
             if (! $rule->validate($value)) {
                 $errors[] = $rule->message();
             }
@@ -23,10 +22,10 @@ class Validator
     public function validate($values, $rules)
     {
         $errors = [];
-        foreach ($rules as $key => $rule) {
-            $valueErrors = $this->validateValue($values[$key], $rule);
+        foreach ($rules as $fieldName => $ruleNames) {
+            $valueErrors = $this->validateValue($values[$fieldName], $ruleNames);
             if (count($valueErrors) > 0) {
-                $errors[$key] = $valueErrors;
+                $errors[$fieldName] = $valueErrors;
             }
         }
         return $errors;
