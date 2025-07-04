@@ -32,8 +32,8 @@ class ValidatorTest extends TestCase
     public function itValidatesCorrectInput($input, $rules)
     {
         $validator =  new Validator();
-        $result = $validator->validateValue($input, $rules);
-        $this->assertTrue($result);
+        $errors = $validator->validateValue($input, $rules);
+        $this->assertEmpty($errors);
     }
 
     public static function invalidInputProvider(): array
@@ -56,8 +56,8 @@ class ValidatorTest extends TestCase
     public function itDontValidatesIncorrectInput($input, $rules)
     {
         $validator =  new Validator();
-        $result = $validator->validateValue($input, $rules);
-        $this->assertFalse($result);
+        $errors = $validator->validateValue($input, $rules);
+        $this->assertNotEmpty($errors);
     }
 
     public static function validDataProvider(): array
@@ -125,9 +125,8 @@ class ValidatorTest extends TestCase
     public function itInformsValidationErrors()
     {
         $validator =  new Validator();
-        $result = $validator->validateValue('', ['email', 'required']);
-        $this->assertFalse($result);
-        $errors = $validator->getErrors();
+        $errors = $validator->validateValue('', ['email', 'required']);
+        $this->assertNotEmpty($errors);
         $this->assertContains('The input should be an email', $errors);
         $this->assertContains('The input is required', $errors);
     }

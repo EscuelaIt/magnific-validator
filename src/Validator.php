@@ -19,10 +19,7 @@ class Validator
                 $this->errors[] = $rule->message();
             }
         }
-        if (count($this->errors) > 0) {
-            return false;
-        }
-        return true;
+        return $this->errors;
     }
 
     public function getErrors()
@@ -34,8 +31,9 @@ class Validator
     {
         $errors = [];
         foreach ($rules as $key => $rule) {
-            if (! $this->validateValue($values[$key], $rule)) {
-                $errors[$key] = $this->errors;
+            $valueErrors = $this->validateValue($values[$key], $rule);
+            if (count($valueErrors) > 0) {
+                $errors[$key] = $valueErrors;
             }
         }
         return $errors;
