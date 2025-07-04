@@ -21,7 +21,7 @@ class Validator
     private function validateValue($value, array $rulesNames = [])
     {
         $errors = [];
-        foreach ((new RulesFactory())->createRules($rulesNames) as $rule) {
+        foreach ((new ValidatorsFactory())->createValidators($rulesNames) as $rule) {
             if (! $rule->validate($value)) {
                 $errors[] = $rule->message();
             }
