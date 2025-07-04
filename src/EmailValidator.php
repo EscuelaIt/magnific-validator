@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Escuelait\MagnificValidator;
 
-class EmailRule implements ValidationRule
+class EmailValidator implements ValidationInterface
 {
     public function validate(mixed $input): bool
     {

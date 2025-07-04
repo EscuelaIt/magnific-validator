@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Escuelait\MagnificValidator;
 
-interface ValidationRule
+interface ValidationInterface
 {
     public function validate(mixed $value): bool;
 
