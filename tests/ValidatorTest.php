@@ -81,8 +81,8 @@ class ValidatorTest extends TestCase
     public function itValidatesCorrectData($data, $dataRules)
     {
         $validator =  new Validator();
-        $result = $validator->validate($data, $dataRules);
-        $this->assertTrue($result);
+        $errors = $validator->validate($data, $dataRules);
+        $this->assertEmpty($errors);
     }
 
 
@@ -107,8 +107,8 @@ class ValidatorTest extends TestCase
     public function itDontValidatesIncorrectData($data, $dataRules)
     {
         $validator =  new Validator();
-        $result = $validator->validate($data, $dataRules);
-        $this->assertFalse($result);
+        $errors = $validator->validate($data, $dataRules);
+        $this->assertNotEmpty($errors);
     }
 
     #[Test]
@@ -144,9 +144,8 @@ class ValidatorTest extends TestCase
               'password' => ['required', 'max:16'],
         ];
         $validator =  new Validator();
-        $result = $validator->validate($data, $rules);
-        $this->assertFalse($result);
-        $errors = $validator->getErrors();
+        $errors = $validator->validate($data, $rules);
+        $this->assertNotEmpty($errors);
         $this->assertArrayHasKey('email', $errors);
         $this->assertArrayHasKey('password', $errors);
         $this->assertEquals('The input should be an email', $errors['email'][0]);

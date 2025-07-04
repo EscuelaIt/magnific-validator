@@ -41,8 +41,7 @@ class Validator
                 $errors[$key] = $this->errors;
             }
         }
-        $this->errors = $errors;
-        return count($errors) === 0;
+        return $errors;
     }
 
 }
