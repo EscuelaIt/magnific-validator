@@ -16,7 +16,10 @@ class ValidatorsFactory
 
     public function createValidators(array $rules): array
     {
-        assert($this->areRulesValid($rules), 'Not valid rules');
+        // assert($this->areRulesValid($rules), 'Not valid rules');
+        if(!$this->areRulesValid($rules)) {
+            throw new \InvalidArgumentException("Not valid rules");
+        }
 
         return array_map(function ($rule) {
             return new ($this->matchedRule($rule))($rule);
