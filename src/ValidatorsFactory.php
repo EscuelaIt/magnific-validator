@@ -14,7 +14,7 @@ class ValidatorsFactory
                 $rule === 'url' => new UrlValidator(),
                 $rule === 'integer' => new IntegerValidator(),
                 $rule === 'required' => new RequiredValidator(),
-                str_starts_with($rule, 'max:') => new MaxValidator((int) substr($rule, strlen('max:'))),
+                str_starts_with($rule, 'max:') => new MaxValidator($rule),
                 default => throw new \InvalidArgumentException("Unknown rule: $rule"),
             };
         }, $rules);

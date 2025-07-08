@@ -8,9 +8,9 @@ class MaxValidator implements ValidationInterface
 {
     private int $max;
 
-    public function __construct(int $max)
-    {
-        $this->max = $max;
+    public function __construct(string $maxRule)
+    {   
+        $this->max = (int) substr($maxRule, strlen('max:'));
     }
 
     public function validate(mixed $value): array
