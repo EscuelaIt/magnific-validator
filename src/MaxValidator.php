@@ -8,6 +8,11 @@ class MaxValidator implements ValidationInterface
 {
     private int $max;
 
+    public static function isRuleMatched($rule): bool
+    {
+        return str_starts_with($rule, 'max:');
+    }
+
     public function __construct(string $maxRule)
     {
         $this->max = (int) substr($maxRule, strlen('max:'));

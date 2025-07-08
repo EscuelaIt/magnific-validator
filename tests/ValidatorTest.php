@@ -213,8 +213,8 @@ class ValidatorTest extends TestCase
     public function itRecivesAnExceptionWhenRuleIsNotReal()
     {
         $validator =  new Validator(['comment' => ['required', 'not_a_real_rule']]);
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unknown rule: not_a_real_rule');
+        $this->expectException(\AssertionError::class);
+        $this->expectExceptionMessage('Not valid rules');
 
         $validator->validate(['comment' => 'something']);
     }
