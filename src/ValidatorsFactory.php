@@ -17,7 +17,7 @@ class ValidatorsFactory
     public function createValidators(array $rules): array
     {
         // assert($this->areRulesValid($rules), 'Not valid rules');
-        if(!$this->areRulesValid($rules)) {
+        if (!$this->areRulesValid($rules)) {
             throw new \InvalidArgumentException("Not valid rules");
         }
 
