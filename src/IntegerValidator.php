@@ -11,9 +11,9 @@ class IntegerValidator implements ValidationInterface
         return $rule === 'integer';
     }
 
-    public function validate(mixed $input): array
+    public function validate(mixed $value): array
     {
-        return filter_var($input, FILTER_VALIDATE_INT) !== false
+        return filter_var($value, FILTER_VALIDATE_INT) !== false
             ? []
             : ['The input should be an integer'];
     }

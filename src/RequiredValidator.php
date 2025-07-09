@@ -11,9 +11,9 @@ class RequiredValidator implements ValidationInterface
         return $rule === 'required';
     }
 
-    public function validate(mixed $input): array
+    public function validate(mixed $value): array
     {
-        return (! is_null($input) && $input !== '')
+        return (! is_null($value) && $value !== '')
             ? []
             : ['The input is required'];
     }

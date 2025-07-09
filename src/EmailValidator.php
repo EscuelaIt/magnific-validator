@@ -11,9 +11,9 @@ class EmailValidator implements ValidationInterface
         return $rule === 'email';
     }
 
-    public function validate(mixed $input): array
+    public function validate(mixed $value): array
     {
-        return filter_var($input, FILTER_VALIDATE_EMAIL) !== false
+        return filter_var($value, FILTER_VALIDATE_EMAIL) !== false
             ? []
             : ['The input should be an email'];
     }
