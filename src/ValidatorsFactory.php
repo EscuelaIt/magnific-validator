@@ -22,20 +22,14 @@ class ValidatorsFactory
         }
 
         return array_map(function ($rule) {
-            return new ($this->matchedRule($rule))($rule);
+            return new ($this->matchedStrategy($rule))($rule);
         }, $rules);
     }
 
     private function areRulesValid($rules)
     {
         foreach ($rules as $rule) {
-            $matched = false;
-            foreach ($this->validationStrategies as $strategy) {
-                if ($strategy::isRuleMatched($rule)) {
-                    $matched = true;
-                    break;
-                }
-            }
+            $matched = $this->matchedStrategy($rule);
             if (!$matched) {
                 return false;
             }
@@ -43,12 +37,13 @@ class ValidatorsFactory
         return true;
     }
 
-    private function matchedRule($rule)
+    private function matchedStrategy($rule)
     {
         foreach ($this->validationStrategies as $strategy) {
             if ($strategy::isRuleMatched($rule)) {
                 return $strategy;
             }
         }
+        return null;
     }
 }
