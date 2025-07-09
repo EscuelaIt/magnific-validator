@@ -27,16 +27,16 @@ class Validator implements ValidationInterface
 
     private function validateValue($value, array $rulesNames = [])
     {
-        $compositeErrors = [];
+        $valueErrors = [];
         foreach ((new ValidatorsFactory())->createValidators($rulesNames) as $validator) {
             $validatorErrors = $validator->validate($value);
             if (count($validatorErrors) !== 0) {
                 foreach ($validatorErrors as $error) {
-                    $compositeErrors[] = $error;
+                    $valueErrors[] = $error;
                 }
             }
         }
-        return $compositeErrors;
+        return $valueErrors;
     }
 
 }
