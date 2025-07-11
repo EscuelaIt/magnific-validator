@@ -53,7 +53,8 @@ class FieldValidatorTest extends TestCase
     }
 
     #[Test]
-    public function itCantCreateFieldValidatorWithInvalidRules() {
+    public function itCantCreateFieldValidatorWithInvalidRules()
+    {
         ini_set('zend.assertions', '1'); // activar las aserciones
         ini_set('assert.active', '1');
         ini_set('assert.exception', '1'); // no tiene efecto en PHP 8.3+
