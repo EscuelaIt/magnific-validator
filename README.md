@@ -28,24 +28,47 @@ composer require escuelait/magnific-validator
 ```php
 use Escuelait\MagnificValidator\Validator;
 
-$data = [
-    'email' => 'user@example.com',
-    'password' => 'secret123',
-];
+$validatorFactory = new ValidatorsFactory();
 
-$rules = [
+// Validador de formulario
+
+$validator = $validatorFactory->create([
     'email' => ['required', 'email'],
     'password' => ['required', 'max:16'],
-];
-
-$validator = new Validator($rules);
-$errors = $validator->validate($data);
+]);
+$errors = $validator->validate([
+    'email' => 'user@example.com',
+    'password' => 'secret123',
+]);
 if (empty($errors)) {
     echo "Valid data!";
 } else {
     echo "Has validation errors:\n"; 
     print_r($errors);
 }
+
+// Validador de un campo
+
+$validator = $validatorFactory->create(['required', 'email']);
+$errors = $validator->validate('user@example.com');
+if (empty($errors)) {
+    echo "Valid data!";
+} else {
+    echo "Has validation errors:\n"; 
+    print_r($errors);
+}
+
+// Validador de una regla simple 
+
+$validator = $validatorFactory->create('email');
+$errors = $validator->validate('user@example.com');
+if (empty($errors)) {
+    echo "Valid data!";
+} else {
+    echo "Has validation errors:\n"; 
+    print_r($errors);
+}
+
 ```
 
 ## ✅ Available Rules
