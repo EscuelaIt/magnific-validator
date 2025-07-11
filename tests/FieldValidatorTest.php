@@ -52,10 +52,10 @@ class FieldValidatorTest extends TestCase
         $this->assertNotEmpty($errors);
     }
 
-    // #[Test]
-    // public function itCantCreateFieldValidatorWithInvalidRules() {
-    //     $this->expectException(AssertionError::class);
-    //     new FieldValidator(344);
-    // }
+    #[Test]
+    public function itCantCreateFieldValidatorWithInvalidRules() {
+        $this->expectException(AssertionError::class);
+        new FieldValidator(344);
+    }
 
 }
