@@ -219,7 +219,8 @@ class FormValidatorTest extends TestCase
         $validator->validate(['comment' => 'something']);
     }
 
-    public static function invalidFormValuesDataProvider() {
+    public static function invalidFormValuesDataProvider()
+    {
         return [
             [2],
             ['something'],

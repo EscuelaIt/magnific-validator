@@ -13,7 +13,7 @@ class StringsArrayValidator implements Validator
 
     public function validate(mixed $array): array
     {
-        if(!is_array($array)) {
+        if (!is_array($array)) {
             return ['Input is not an array'];
         }
 

@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Escuelait\Tests\MagnificValidator;
 
 use AssertionError;
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\Attributes\DataProvider;
 use Escuelait\MagnificValidator\FieldValidator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase;
 
 class FieldValidatorTest extends TestCase
 {
-
-    public static function validValuesDataProvider() {
+    public static function validValuesDataProvider()
+    {
         return [
             [
                 ['required', 'email'],
@@ -35,7 +35,8 @@ class FieldValidatorTest extends TestCase
         $this->assertEmpty($errors);
     }
 
-    public static function invalidValuesDataProvider() {
+    public static function invalidValuesDataProvider()
+    {
         return [
             [['something', 'foo']],
             [null],

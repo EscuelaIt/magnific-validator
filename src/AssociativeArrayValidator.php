@@ -13,7 +13,7 @@ class AssociativeArrayValidator implements Validator
 
     public function validate(mixed $value): array
     {
-        if(!is_array($value)) {
+        if (!is_array($value)) {
             return ['The input is not an array'];
         }
 
