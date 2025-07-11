@@ -28,7 +28,7 @@ class FormValidator implements Validator
     private function validateValue($value, array $rulesNames = [])
     {
         $valueErrors = [];
-        foreach ((new ValidatorsFactory())->createValidators($rulesNames) as $validator) {
+        foreach ((new ValidatorsStrategyFactory())->createValidators($rulesNames) as $validator) {
             $validatorErrors = $validator->validate($value);
             if (count($validatorErrors) !== 0) {
                 foreach ($validatorErrors as $error) {

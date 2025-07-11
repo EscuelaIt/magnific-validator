@@ -6,44 +6,43 @@ namespace Escuelait\MagnificValidator;
 
 class ValidatorsFactory
 {
-    private $validators = [
-        EmailValidator::class,
-        UrlValidator::class,
-        IntegerValidator::class,
-        RequiredValidator::class,
-        MaxValidator::class,
-    ];
 
-    public function createValidators(array $rules): array
-    {
-        // assert($this->areRulesValid($rules), 'Not valid rules');
-        if (!$this->areRulesValid($rules)) {
-            throw new \InvalidArgumentException("Not valid rules");
+    public function create(mixed $rules) {
+        if(is_string($rules)) {
+            $validatorStrategyFactory = new ValidatorsStrategyFactory();
+            return new($validatorStrategyFactory->matchedValidator($rules))($rules);
         }
-
-        return array_map(function ($rule) {
-            return new ($this->matchedValidator($rule))($rule);
-        }, $rules);
+        if($this->isAssociativeArray($rules)) {
+            return new FormValidator($rules);
+        }
+        if($this->isNumericArrayOfStrings($rules)) {
+            return new FieldValidator($rules);
+        }
     }
 
-    private function areRulesValid($rules)
+    private function isAssociativeArray(array $array): bool
     {
-        foreach ($rules as $rule) {
-            $matched = $this->matchedValidator($rule);
-            if (!$matched) {
+        if ([] === $array) {
+            return false;
+        }
+
+        return array_keys($array) !== range(0, count($array) - 1);
+    }
+
+    private function isNumericArrayOfStrings(array $array): bool
+    {
+        // Verifica que las claves sean numéricas consecutivas
+        if (array_keys($array) !== range(0, count($array) - 1)) {
+            return false;
+        }
+
+        // Verifica que todos los valores sean strings
+        foreach ($array as $value) {
+            if (!is_string($value)) {
                 return false;
             }
         }
-        return true;
-    }
 
-    private function matchedValidator($rule)
-    {
-        foreach ($this->validators as $validator) {
-            if ($validator::isRuleMatched($rule)) {
-                return $validator;
-            }
-        }
-        return null;
+        return true;
     }
 }
