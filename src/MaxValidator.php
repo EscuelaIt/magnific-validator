@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Escuelait\MagnificValidator;
 
-class MaxValidator implements ValidationInterface
+class MaxValidator implements Validator
 {
     private int $max;
 

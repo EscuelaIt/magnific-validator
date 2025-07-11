@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Escuelait\Tests\MagnificValidator;
 
-use Escuelait\MagnificValidator\Validator;
+use Escuelait\MagnificValidator\FormValidator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-class ValidatorTest extends TestCase
+class FormValidatorTest extends TestCase
 {
     public static function validInputProvider(): array
     {
@@ -101,7 +101,7 @@ class ValidatorTest extends TestCase
     #[DataProvider('validInputProvider')]
     public function itValidatesCorrectInput($input, $rules)
     {
-        $validator =  new Validator($rules);
+        $validator =  new FormValidator($rules);
         $errors = $validator->validate($input);
         $this->assertEmpty($errors);
     }
@@ -153,7 +153,7 @@ class ValidatorTest extends TestCase
     #[DataProvider('invalidInputProvider')]
     public function itDontValidatesIncorrectInput($input, $rules)
     {
-        $validator =  new Validator($rules);
+        $validator =  new FormValidator($rules);
         $errors = $validator->validate($input);
         $this->assertNotEmpty($errors);
     }
@@ -178,7 +178,7 @@ class ValidatorTest extends TestCase
     #[DataProvider('validDataProvider')]
     public function itValidatesCorrectData($data, $dataRules)
     {
-        $validator =  new Validator($dataRules);
+        $validator =  new FormValidator($dataRules);
         $errors = $validator->validate($data);
         $this->assertEmpty($errors);
     }
@@ -204,7 +204,7 @@ class ValidatorTest extends TestCase
     #[DataProvider('invalidDataProvider')]
     public function itDontValidatesIncorrectData($data, $dataRules)
     {
-        $validator =  new Validator($dataRules);
+        $validator =  new FormValidator($dataRules);
         $errors = $validator->validate($data);
         $this->assertNotEmpty($errors);
     }
@@ -212,7 +212,7 @@ class ValidatorTest extends TestCase
     #[Test]
     public function itRecivesAnExceptionWhenRuleIsNotReal()
     {
-        $validator =  new Validator(['comment' => ['required', 'not_a_real_rule']]);
+        $validator =  new FormValidator(['comment' => ['required', 'not_a_real_rule']]);
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Not valid rules");
 
@@ -222,7 +222,7 @@ class ValidatorTest extends TestCase
     #[Test]
     public function itInformsValidationErrors()
     {
-        $validator =  new Validator(['email' => ['email', 'required']]);
+        $validator =  new FormValidator(['email' => ['email', 'required']]);
         $errors = $validator->validate(
             ['email' => '']
         );
@@ -242,7 +242,7 @@ class ValidatorTest extends TestCase
               'email' => ['required', 'email'],
               'password' => ['required', 'max:16'],
         ];
-        $validator =  new Validator($rules);
+        $validator =  new FormValidator($rules);
         $errors = $validator->validate($data);
         $this->assertNotEmpty($errors);
         $this->assertArrayHasKey('email', $errors);

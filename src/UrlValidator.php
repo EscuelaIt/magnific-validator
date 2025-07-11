@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Escuelait\MagnificValidator;
 
-class UrlValidator implements ValidationInterface
+class UrlValidator implements Validator
 {
     public static function isRuleMatched($rule): bool
     {
