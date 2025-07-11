@@ -10,6 +10,8 @@ class FieldValidator implements Validator {
 
   public function __construct($rules)
   {
+    assert(count((new StringsArrayValidator())->validate($rules)) === 0, 'Not valid rules for FieldValidator');
+
     $this->rules = $rules;
   }
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Escuelait\MagnificValidator;
 
+use InvalidArgumentException;
+
 class FormValidator implements Validator
 {
     private $rules;
@@ -15,6 +17,10 @@ class FormValidator implements Validator
 
     public function validate($values): array
     {
+        if(count((new AssociativeArrayValidator())->validate($values)) > 0) {
+            throw(new InvalidArgumentException('Not valid form values'));
+        }
+        
         $formErrors = [];
         foreach ($this->rules as $fieldName => $ruleNames) {
             $fieldErrors = $this->validateValue($values[$fieldName], $ruleNames);

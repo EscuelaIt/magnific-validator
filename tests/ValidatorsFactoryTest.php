@@ -11,6 +11,24 @@ use PHPUnit\Framework\TestCase;
 
 class ValidatorsFactoryTest extends TestCase {
 
+  public static function notValidInputProvider() {
+    return [
+      [5],
+      [true],
+      [5.09],
+      [null],
+    ];
+  }
+
+  #[Test]
+  #[DataProvider('notValidInputProvider')]
+  public function itThrowsAnErrorWhenTryToCreateValidatorWithInvalidData($input) {
+    $validatorFactory = new ValidatorsFactory();
+    $this->expectException(\InvalidArgumentException::class);
+    $this->expectExceptionMessage("Not valid input to create a validator");
+    $validatorFactory->create($input);
+  }
+
   #[Test]
   public function itValidatesAForm() {
     $validatorFactory = new ValidatorsFactory();

@@ -219,6 +219,25 @@ class FormValidatorTest extends TestCase
         $validator->validate(['comment' => 'something']);
     }
 
+    public static function invalidFormValuesDataProvider() {
+        return [
+            [2],
+            ['something'],
+            [['something', 'foo']],
+            [null],
+        ];
+    }
+
+    #[Test]
+    #[DataProvider('invalidFormValuesDataProvider')]
+    public function itRecivesAnExceptionWhenValidatingWithIncorrectInput($values)
+    {
+        $validator =  new FormValidator(['comment' => ['required', 'not_a_real_rule']]);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Not valid form values");
+        $validator->validate($values);
+    }
+
     #[Test]
     public function itInformsValidationErrors()
     {

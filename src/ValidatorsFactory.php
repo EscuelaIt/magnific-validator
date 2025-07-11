@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Escuelait\MagnificValidator;
 
+use InvalidArgumentException;
+
 class ValidatorsFactory
 {
 
     public function create(mixed $rules) {
+        if(!is_string($rules) && !$this->isAssociativeArray($rules) && !$this->isNumericArrayOfStrings($rules)) {
+            throw(new InvalidArgumentException("Not valid input to create a validator"));
+        }
         if(is_string($rules)) {
             $validatorStrategyFactory = new ValidatorsStrategyFactory();
             return new($validatorStrategyFactory->matchedValidator($rules))($rules);
@@ -20,29 +25,15 @@ class ValidatorsFactory
         }
     }
 
-    private function isAssociativeArray(array $array): bool
+    private function isAssociativeArray($rules): bool
     {
-        if ([] === $array) {
-            return false;
-        }
-
-        return array_keys($array) !== range(0, count($array) - 1);
+        $associativeArrayValidator = new AssociativeArrayValidator();
+        return count($associativeArrayValidator->validate($rules)) === 0;
     }
 
-    private function isNumericArrayOfStrings(array $array): bool
+    private function isNumericArrayOfStrings($rules): bool
     {
-        // Verifica que las claves sean numéricas consecutivas
-        if (array_keys($array) !== range(0, count($array) - 1)) {
-            return false;
-        }
-
-        // Verifica que todos los valores sean strings
-        foreach ($array as $value) {
-            if (!is_string($value)) {
-                return false;
-            }
-        }
-
-        return true;
+        $stringsArrayValidator = new StringsArrayValidator();
+        return count($stringsArrayValidator->validate($rules)) === 0;
     }
 }
