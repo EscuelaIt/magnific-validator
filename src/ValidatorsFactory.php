@@ -6,7 +6,7 @@ namespace Escuelait\MagnificValidator;
 
 class ValidatorsFactory
 {
-    private $validationStrategies = [
+    private $validators = [
         EmailValidator::class,
         UrlValidator::class,
         IntegerValidator::class,
@@ -22,14 +22,14 @@ class ValidatorsFactory
         }
 
         return array_map(function ($rule) {
-            return new ($this->matchedStrategy($rule))($rule);
+            return new ($this->matchedValidator($rule))($rule);
         }, $rules);
     }
 
     private function areRulesValid($rules)
     {
         foreach ($rules as $rule) {
-            $matched = $this->matchedStrategy($rule);
+            $matched = $this->matchedValidator($rule);
             if (!$matched) {
                 return false;
             }
@@ -37,11 +37,11 @@ class ValidatorsFactory
         return true;
     }
 
-    private function matchedStrategy($rule)
+    private function matchedValidator($rule)
     {
-        foreach ($this->validationStrategies as $strategy) {
-            if ($strategy::isRuleMatched($rule)) {
-                return $strategy;
+        foreach ($this->validators as $validator) {
+            if ($validator::isRuleMatched($rule)) {
+                return $validator;
             }
         }
         return null;
